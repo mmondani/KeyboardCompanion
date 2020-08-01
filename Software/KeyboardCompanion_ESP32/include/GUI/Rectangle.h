@@ -20,9 +20,11 @@ class Rectangle : public Widget {
     protected:
 
     private:
-        Color* backgroundColor; 
         bool border;
+        Color* backgroundColor; 
         Color* borderColor;
+        Color* backgroundColorClick; 
+        Color* borderColorClick;
 };
 
 

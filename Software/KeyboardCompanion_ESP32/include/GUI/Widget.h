@@ -33,12 +33,13 @@ class Widget {
         void setY (uint32_t y);
         void setW (uint32_t w);
         void setH (uint32_t h);
+        bool containsPoint (uint32_t x, uint32_t y);
+        static void connect (WidgetSignal signal, SignalSlot slot);
+        void emmit (WidgetSignal signal);
         virtual void draw() = 0;
         virtual void clearArea() = 0;
         virtual void onClick() = 0;
         virtual void onRelease()  = 0;
-        static void connect (WidgetSignal signal, SignalSlot slot);
-        void emmit (WidgetSignal signal);
 
 
     protected:

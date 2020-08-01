@@ -50,6 +50,11 @@ void Widget::setH (uint32_t h) {
 }
 
 
+bool Widget::containsPoint (uint32_t x, uint32_t y) {
+    return ((x >= this->x && x <= (this->x + this->w)) && ((y >= this->y && y <= (this->y + this->h))));
+}
+
+
 void Widget::connect (WidgetSignal signal, SignalSlot slot) {
     signal.add(slot);
 }
