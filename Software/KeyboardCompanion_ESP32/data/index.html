@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ESP32 Web Server</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="wifi.js"></script>
+  </head>
+
+  <body>
+    <h2>Eliga una red WiFi a la que conectarse</h2>
+    <button id="refresh_button" class="button">Buscar redes WiFi</button>
+    <div id="ssid_loading" class="loader"></div>
+    <div id="ssid_list" style="padding-top: 30px;">
+    </div>
+  </body>
+</html>
