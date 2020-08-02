@@ -7,21 +7,22 @@
 #include "../RingBuffer.h"
 
 
-enum TouchEventType {
-    CLICK,
-    RELEASE
-};
-
-typedef struct {
-    TouchEventType type;
-    uint32_t x;
-    uint32_t y;
-}TouchEvent;
-
 
 
 class TouchHandler {
     public:
+        enum TouchEventType {
+            CLICK,
+            RELEASE
+        };
+
+        typedef struct {
+            TouchEventType type;
+            uint32_t x;
+            uint32_t y;
+        }TouchEvent;
+
+
         static TouchHandler* getInstance();
         void begin(Adafruit_STMPE610* touch, uint8_t rotation, uint32_t tftWidth, uint32_t tftHeight, RingBuffer<TouchEvent>* eventBuffer);
         void handler ();

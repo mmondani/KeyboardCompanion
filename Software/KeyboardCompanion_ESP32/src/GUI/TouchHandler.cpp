@@ -8,7 +8,7 @@
 
 
 TouchHandler* TouchHandler::instance = nullptr;
-RingBuffer<TouchEvent>* TouchHandler::touchEventBuffer = nullptr;
+RingBuffer<TouchHandler::TouchEvent>* TouchHandler::touchEventBuffer = nullptr;
 
 
 TouchHandler* TouchHandler::getInstance() {
@@ -66,12 +66,12 @@ void TouchHandler::handler () {
                     getRotatedXY(&x, &y);
 
                     if (touchEventBuffer != nullptr) {
-                        TouchEvent* event = touchEventBuffer->getFreeSlot();
+                        TouchHandler::TouchEvent* event = touchEventBuffer->getFreeSlot();
 
                         if (event != nullptr) {
                             event->x = x;
                             event->y = y;
-                            event->type = TouchEventType::CLICK;
+                            event->type = TouchHandler::TouchEventType::CLICK;
                         }
                     }
 
@@ -104,12 +104,12 @@ void TouchHandler::handler () {
                 if (!touch->touched()) {
                     
                     if (touchEventBuffer != nullptr) {
-                        TouchEvent* event = touchEventBuffer->getFreeSlot();
+                        TouchHandler::TouchEvent* event = touchEventBuffer->getFreeSlot();
 
                         if (event != nullptr) {
                             event->x = x;
                             event->y = y;
-                            event->type = TouchEventType::RELEASE;
+                            event->type = TouchHandler::TouchEventType::RELEASE;
                         }
                     }
 

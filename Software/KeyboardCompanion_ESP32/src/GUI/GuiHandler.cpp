@@ -14,7 +14,7 @@ GuiHandler* GuiHandler::getInstance() {
 
 GuiHandler::GuiHandler() {
   touchHandler = TouchHandler::getInstance();
-  touchEventBuffer = new RingBuffer<TouchEvent>(10);
+  touchEventBuffer = new RingBuffer<TouchHandler::TouchEvent>(10);
   widgetEventBuffer = new RingBuffer<Widget::WidgetEvent>(20);
 }
 
@@ -39,9 +39,9 @@ void GuiHandler::handler() {
     touchHandler->handler();
 
     if (touchEventBuffer->getPending()) {
-      TouchEvent* event = touchEventBuffer->remove();
+      TouchHandler::TouchEvent* event = touchEventBuffer->remove();
 
-      if (event->type == TouchEventType::CLICK) {
+      if (event->type == TouchHandler::TouchEventType::CLICK) {
         tft->fillCircle(event->x, event->y, 2, TFT_BLACK); 
       }
     }

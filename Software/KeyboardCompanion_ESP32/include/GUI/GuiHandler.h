@@ -22,7 +22,7 @@ class GuiHandler {
 
     private:
         static GuiHandler* instance;
-        RingBuffer<TouchEvent>* touchEventBuffer;
+        RingBuffer<TouchHandler::TouchEvent>* touchEventBuffer;
         RingBuffer<Widget::WidgetEvent>* widgetEventBuffer;
         TouchHandler* touchHandler;
         TFT_eSPI* tft;
