@@ -4,17 +4,26 @@
 #include <functional>
 #include <Adafruit_STMPE610.h>
 #include <SoftTimers.h>
+#include "../RingBuffer.h"
 
 
-typedef std::function<void(uint32_t x, uint32_t y)> OnTouchCallback;
-typedef std::function<void(void)> OnReleaseCallback;
+enum TouchEventType {
+    CLICK,
+    RELEASE
+};
+
+typedef struct {
+    TouchEventType type;
+    uint32_t x;
+    uint32_t y;
+}TouchEvent;
+
+
 
 class TouchHandler {
     public:
         static TouchHandler* getInstance();
-        void begin(Adafruit_STMPE610* touch, uint8_t rotation, uint32_t tftWidth, uint32_t tftHeight);
-        void setOnTouchCallback (OnTouchCallback touchCallback);
-        void setOnReleaseCallback (OnReleaseCallback releaseCallback);
+        void begin(Adafruit_STMPE610* touch, uint8_t rotation, uint32_t tftWidth, uint32_t tftHeight, RingBuffer<TouchEvent>* eventBuffer);
         void handler ();
 
     protected:
@@ -32,12 +41,11 @@ class TouchHandler {
         };
 
         static TouchHandler* instance;
+        static RingBuffer<TouchEvent>* touchEventBuffer;
         TouchHandler::State state;
         TouchHandler::State prevState;
         Adafruit_STMPE610* touch;
         uint8_t rotation;
-        OnTouchCallback onTouchCallback;
-        OnReleaseCallback onReleaseCallback;
         uint32_t tftWidth;
         uint32_t tftHeight;
         SoftTimer debounceTimer;
@@ -45,5 +53,6 @@ class TouchHandler {
         void getRotatedXY (uint16_t* x, uint16_t* y);
         void gotoState (TouchHandler::State nextState);
 };
+
 
 #endif

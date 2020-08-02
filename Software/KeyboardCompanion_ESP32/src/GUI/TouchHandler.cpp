@@ -8,6 +8,7 @@
 
 
 TouchHandler* TouchHandler::instance = nullptr;
+RingBuffer<TouchEvent>* TouchHandler::touchEventBuffer = nullptr;
 
 
 TouchHandler* TouchHandler::getInstance() {
@@ -19,29 +20,20 @@ TouchHandler* TouchHandler::getInstance() {
 
 
 TouchHandler::TouchHandler() {
-    this->onReleaseCallback = nullptr;
-    this->onTouchCallback = nullptr;
+ 
 }
 
 
-void TouchHandler::begin(Adafruit_STMPE610* touch, uint8_t rotation, uint32_t tftWidth, uint32_t tftHeight) {
+void TouchHandler::begin(Adafruit_STMPE610* touch, uint8_t rotation, uint32_t tftWidth, uint32_t tftHeight, RingBuffer<TouchEvent>* eventBuffer) {
     this->touch = touch;
     this->rotation = rotation;
     this->tftWidth = tftWidth;
     this->tftHeight = tftHeight;
 
+    touchEventBuffer = eventBuffer;
+
     state = IDLE;
     prevState = IDLE;
-}
-
-
-void TouchHandler::setOnTouchCallback (OnTouchCallback touchCallback) {
-    onTouchCallback = touchCallback;
-}
-
-
-void TouchHandler::setOnReleaseCallback (OnReleaseCallback releaseCallback) {
-    onReleaseCallback = releaseCallback;
 }
 
 
@@ -73,8 +65,15 @@ void TouchHandler::handler () {
 
                     getRotatedXY(&x, &y);
 
-                    if (onTouchCallback != nullptr)
-                        onTouchCallback(x, y);
+                    if (touchEventBuffer != nullptr) {
+                        TouchEvent* event = touchEventBuffer->getFreeSlot();
+
+                        if (event != nullptr) {
+                            event->x = x;
+                            event->y = y;
+                            event->type = TouchEventType::CLICK;
+                        }
+                    }
 
                     gotoState(CLICKED);
                 }
@@ -104,8 +103,15 @@ void TouchHandler::handler () {
             if (debounceTimer.hasTimedOut()) {
                 if (!touch->touched()) {
                     
-                    if (onReleaseCallback != nullptr)
-                        onReleaseCallback();
+                    if (touchEventBuffer != nullptr) {
+                        TouchEvent* event = touchEventBuffer->getFreeSlot();
+
+                        if (event != nullptr) {
+                            event->x = x;
+                            event->y = y;
+                            event->type = TouchEventType::RELEASE;
+                        }
+                    }
 
                     gotoState(IDLE);
                 }
