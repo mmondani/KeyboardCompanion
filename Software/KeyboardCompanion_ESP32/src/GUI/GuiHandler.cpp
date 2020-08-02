@@ -1,10 +1,5 @@
 #include "../../include/GUI/GuiHandler.h"
 
-// Valores de calibración genéricos para el touch
-#define TS_MINX 220
-#define TS_MINY 140
-#define TS_MAXX 3900
-#define TS_MAXY 3750
 
 
 GuiHandler* GuiHandler::instance = nullptr;
@@ -18,7 +13,8 @@ GuiHandler* GuiHandler::getInstance() {
 }
 
 GuiHandler::GuiHandler() {
-
+  touchHandler = TouchHandler::getInstance();
+  tsEvent = NONE;
 }
 
 
@@ -30,63 +26,41 @@ void GuiHandler::begin(TFT_eSPI* tft, Adafruit_STMPE610* touch, uint8_t rotation
     this->tftHeight = tftHeight;
 
     tft->setRotation(rotation);
+
+    touchHandler->begin(touch, rotation, tftWidth, tftHeight);
+    touchHandler->setOnTouchCallback([this] (uint32_t x, uint32_t y) {
+        this->ts_x = x;
+        this->ts_y = y;
+        this->tsEvent = CLICK;
+        Serial.print("callback click: ");
+        Serial.print(ts_x);
+        Serial.print(" ");
+        Serial.println(ts_y);
+    });
+
+    touchHandler->setOnReleaseCallback([this] (void) {
+        this->tsEvent = RELEASE;
+    });
 }
 
 
 void GuiHandler::handler() {
-    uint16_t x, y;
-    uint8_t z;
+
+    touchHandler->handler();
 
 
-    if (touch->touched())
-    {
-        while (!touch->bufferEmpty()) {
-            Serial.print(touch->bufferSize());
-            touch->readData(&x, &y, &z);
-            
-            getRotatedXY(&x, &y);
+    if (tsEvent != NONE) {
+      Serial.print("event: ");
+      Serial.println(tsEvent);
 
-            tft->fillCircle(x, y, 2, TFT_BLACK); 
+      if (tsEvent == CLICK) {
+        Serial.print("click: ");
+        Serial.print(ts_x);
+        Serial.print(" ");
+        Serial.println(ts_y);
+        tft->fillCircle(ts_x, ts_y, 2, TFT_BLACK); 
+      }
 
-        }
+      tsEvent = NONE;
     }
-}
-
-
-
-
-
-void GuiHandler::getRotatedXY (uint16_t* x, uint16_t* y) {
-  uint16_t aux;
-
-  switch(rotation) {
-    case 0:
-      *x = map(*x, TS_MINX, TS_MAXX, 0, tftWidth);
-      *y = map(*y, TS_MINY, TS_MAXY, 0, tftHeight);
-      break;
-
-    case 1:
-      *x = map(*x, TS_MAXX, TS_MINX, 0, tftHeight);
-      *y = map(*y, TS_MINY, TS_MAXY, 0, tftWidth);
-
-      aux = *x;
-      *x = *y;
-      *y = aux;
-      break;
-
-    case 2: 
-      *x = map(*x, TS_MAXX, TS_MINX, 0, tftWidth);
-      *y = map(*y, TS_MAXY, TS_MINY, 0, tftHeight);
-      break;
-
-    case 3:
-      *x = map(*x, TS_MINX, TS_MAXX, 0, tftHeight);
-      *y = map(*y, TS_MAXY, TS_MINY, 0, tftWidth);
-
-      aux = *x;
-      *x = *y;
-      *y = aux;
-      break;
-  }
-
 }

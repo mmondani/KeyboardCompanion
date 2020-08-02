@@ -3,6 +3,7 @@
 
 #include <TFT_eSPI.h>
 #include <Adafruit_STMPE610.h>
+#include "TouchHandler.h"
 
 class GuiHandler {
     public:
@@ -17,14 +18,22 @@ class GuiHandler {
 
 
     private:
+        enum TsEvent {
+            NONE,
+            CLICK,
+            RELEASE
+        };
+
         static GuiHandler* instance;
+        TouchHandler* touchHandler;
         TFT_eSPI* tft;
         Adafruit_STMPE610* touch;
         uint8_t rotation;
         uint16_t tftWidth;
         uint16_t tftHeight;
 
-        void getRotatedXY (uint16_t* x, uint16_t* y);
+        GuiHandler::TsEvent tsEvent;
+        uint32_t ts_x, ts_y;
 };
 
 
