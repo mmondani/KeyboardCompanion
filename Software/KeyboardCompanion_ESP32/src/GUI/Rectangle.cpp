@@ -1,9 +1,9 @@
 #include "../../include/GUI/Rectangle.h"
 
 
-Rectangle::Rectangle(TFT_eSPI* tft, uint32_t x, uint32_t y, uint32_t w, uint32_t h, 
+Rectangle::Rectangle(uint32_t x, uint32_t y, uint32_t w, uint32_t h, 
                 uint32_t bgColor, bool border, uint32_t borderColor)
-        : Widget(tft, x, y, w, h) {
+        : Widget(x, y, w, h) {
 
     this->border = border;
     this->backgroundColor = new Color(bgColor);
@@ -15,7 +15,7 @@ Rectangle::Rectangle(TFT_eSPI* tft, uint32_t x, uint32_t y, uint32_t w, uint32_t
 }
 
 
-void Rectangle::draw() {
+void Rectangle::draw(TFT_eSPI* tft) {
     tft->fillRect(x, y, w, h, backgroundColor->to565Format());
 
     if (border)
@@ -23,7 +23,7 @@ void Rectangle::draw() {
 }
 
 
-void Rectangle::clearArea() {
+void Rectangle::clearArea(TFT_eSPI* tft) {
 
 }
 

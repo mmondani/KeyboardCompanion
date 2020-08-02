@@ -4,8 +4,7 @@
 RingBuffer<Widget::WidgetEvent>* Widget::widgetEventBuffer = nullptr;
 
 
-Widget::Widget(TFT_eSPI* tft, uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
-    this->tft = tft;
+Widget::Widget(uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
     this->x = x;
     this->y = y;
     this->w = w;

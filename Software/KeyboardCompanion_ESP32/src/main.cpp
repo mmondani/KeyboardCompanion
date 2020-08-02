@@ -13,7 +13,7 @@
 TFT_eSPI tft = TFT_eSPI(); 
 Adafruit_STMPE610 touch = Adafruit_STMPE610(CS_TOUCH);
 
-Rectangle rect = Rectangle(&tft, 10, 10, 100, 50, 0xff0000, true, 0x00ff00);
+Rectangle rect = Rectangle(10, 10, 100, 50, 0xff0000, true, 0x00ff00);
 GuiHandler* guiHandler;
 
 

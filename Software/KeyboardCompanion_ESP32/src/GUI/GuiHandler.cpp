@@ -50,8 +50,8 @@ void GuiHandler::handler() {
       Widget::WidgetEvent* event = widgetEventBuffer->remove();
 
       if (event->type == Widget::WidgetEventType::DRAW)
-        event->widget->draw();
+        event->widget->draw(tft);
       else if (event->type == Widget::WidgetEventType::CLEAR)
-        event->widget->clearArea();
+        event->widget->clearArea(tft);
     }
 }

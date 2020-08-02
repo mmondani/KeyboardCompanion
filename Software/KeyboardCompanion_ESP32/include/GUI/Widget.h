@@ -39,7 +39,7 @@ class Widget {
         } WidgetEvent;
 
 
-        Widget(TFT_eSPI* tft, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+        Widget(uint32_t x, uint32_t y, uint32_t w, uint32_t h);
         static void setWidgetEventBuffer(RingBuffer<WidgetEvent>* buffer);
         uint32_t getX ();
         uint32_t getY ();
@@ -54,15 +54,14 @@ class Widget {
         void hide ();
         static void connect (WidgetSignal signal, SignalSlot slot);
         void emmit (WidgetSignal signal);
-        virtual void draw() = 0;
-        virtual void clearArea() = 0;
+        virtual void draw(TFT_eSPI* tft) = 0;
+        virtual void clearArea(TFT_eSPI* tft) = 0;
         virtual void onClick() = 0;
         virtual void onRelease()  = 0;
 
 
     protected:
         static RingBuffer<WidgetEvent>* widgetEventBuffer;
-        TFT_eSPI* tft;
         uint32_t x;
         uint32_t y;
         uint32_t w; 
