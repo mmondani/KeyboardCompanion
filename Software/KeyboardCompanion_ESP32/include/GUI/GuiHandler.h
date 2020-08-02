@@ -4,6 +4,7 @@
 #include <TFT_eSPI.h>
 #include <Adafruit_STMPE610.h>
 #include "TouchHandler.h"
+#include "Widgets.h"
 #include "../RingBuffer.h"
 
 
@@ -22,6 +23,7 @@ class GuiHandler {
     private:
         static GuiHandler* instance;
         RingBuffer<TouchEvent>* touchEventBuffer;
+        RingBuffer<Widget::WidgetEvent>* widgetEventBuffer;
         TouchHandler* touchHandler;
         TFT_eSPI* tft;
         Adafruit_STMPE610* touch;

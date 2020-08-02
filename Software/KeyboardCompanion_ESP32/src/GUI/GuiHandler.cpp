@@ -1,8 +1,8 @@
 #include "../../include/GUI/GuiHandler.h"
 
 
-
 GuiHandler* GuiHandler::instance = nullptr;
+
 
 
 GuiHandler* GuiHandler::getInstance() {
@@ -15,6 +15,7 @@ GuiHandler* GuiHandler::getInstance() {
 GuiHandler::GuiHandler() {
   touchHandler = TouchHandler::getInstance();
   touchEventBuffer = new RingBuffer<TouchEvent>(10);
+  widgetEventBuffer = new RingBuffer<Widget::WidgetEvent>(20);
 }
 
 
@@ -26,7 +27,9 @@ void GuiHandler::begin(TFT_eSPI* tft, Adafruit_STMPE610* touch, uint8_t rotation
     this->tftHeight = tftHeight;
 
     tft->setRotation(rotation);
+    tft->fillScreen(Color::to565Format(0xffffff));
 
+    Widget::setWidgetEventBuffer(widgetEventBuffer);
     touchHandler->begin(touch, rotation, tftWidth, tftHeight, touchEventBuffer);
 }
 
@@ -43,4 +46,12 @@ void GuiHandler::handler() {
       }
     }
 
+    if (widgetEventBuffer->getPending()) {
+      Widget::WidgetEvent* event = widgetEventBuffer->remove();
+
+      if (event->type == Widget::WidgetEventType::DRAW)
+        event->widget->draw();
+      else if (event->type == Widget::WidgetEventType::CLEAR)
+        event->widget->clearArea();
+    }
 }
