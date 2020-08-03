@@ -3,17 +3,15 @@
 
 #include <stdint.h>
 #include "../GUI/Widgets.h"
+#include "../GUI/Screen.h"
 
 
-class TestScreen {
+class TestScreen : public Screen {
     public:
         TestScreen();
-        void show();
-        void hide();
-        void onClick(uint32_t x, uint32_t y);
-        void onRelease(uint32_t x, uint32_t y);
 
     private:    
+        Widget* widgetList[3];
         Rectangle background;
         Rectangle rect1;
         Rectangle rect2;

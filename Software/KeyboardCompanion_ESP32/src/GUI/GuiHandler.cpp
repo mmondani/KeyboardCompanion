@@ -32,7 +32,10 @@ void GuiHandler::begin(TFT_eSPI* tft, Adafruit_STMPE610* touch, uint8_t rotation
     Widget::setWidgetEventBuffer(widgetEventBuffer);
     touchHandler->begin(touch, rotation, tftWidth, tftHeight, touchEventBuffer);
 
-    testScreen.show();
+
+    currentScreen = &testScreen;
+
+    currentScreen->show();
 }
 
 
@@ -53,7 +56,7 @@ void GuiHandler::handler() {
         Serial.println(event->y);
         */
 
-        testScreen.onClick(event->x, event->y);
+        currentScreen->onClick(event->x, event->y);
       }
       else if (event->type == TouchHandler::TouchEventType::RELEASE) {
         /*
@@ -63,7 +66,7 @@ void GuiHandler::handler() {
         Serial.println(event->y);
         */
 
-        testScreen.onRelease(event->x, event->y);
+        currentScreen->onRelease(event->x, event->y);
       }
     }
 
@@ -73,6 +76,6 @@ void GuiHandler::handler() {
       if (event->type == Widget::WidgetEventType::DRAW)
         event->widget->draw(tft);
       else if (event->type == Widget::WidgetEventType::HIDE)
-        testScreen.show();
+        currentScreen->show();
     }
 }

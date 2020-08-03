@@ -32,6 +32,7 @@ class GuiHandler {
         uint16_t tftWidth;
         uint16_t tftHeight;
 
+        Screen* currentScreen;
         TestScreen testScreen;
 };
 
