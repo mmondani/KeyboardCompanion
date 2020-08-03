@@ -6,8 +6,13 @@ Rectangle::Rectangle(uint32_t x, uint32_t y, uint32_t w, uint32_t h,
         : Widget(x, y, w, h) {
 
     this->border = border;
-    this->backgroundColor = new Color(bgColor);
-    this->borderColor = new Color(borderColor);
+
+    this->backgroundColorRelease = new Color(bgColor);
+    this->borderColorRelease = new Color(borderColor);
+
+    this->backgroundColor = this->backgroundColorRelease;
+    this->borderColor = this->borderColorRelease;
+
     this->backgroundColorClick = new Color();
     this->backgroundColorClick->copy(this->backgroundColor);
     this->backgroundColorClick->multiply(1, 2);
@@ -29,12 +34,22 @@ void Rectangle::clearArea(TFT_eSPI* tft) {
 
 
 void Rectangle::onClick() {
+    backgroundColor = backgroundColorClick;
+    borderColor = borderColorClick;
 
+    show();
+
+    //emit();
 }
 
 
 void Rectangle::onRelease() {
+    backgroundColor = backgroundColorRelease;
+    borderColor = borderColorRelease;
 
+    show();
+
+    //emit();
 }
 
 

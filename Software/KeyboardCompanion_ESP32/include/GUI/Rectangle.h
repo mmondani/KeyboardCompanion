@@ -23,6 +23,8 @@ class Rectangle : public Widget {
         bool border;
         Color* backgroundColor; 
         Color* borderColor;
+        Color* backgroundColorRelease; 
+        Color* borderColorRelease;
         Color* backgroundColorClick; 
         Color* borderColorClick;
 };

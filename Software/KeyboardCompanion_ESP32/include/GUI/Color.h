@@ -16,7 +16,6 @@ class Color {
         void multiply (uint32_t num, uint32_t den);
         void copy (const Color& C);
         void copy (const Color* C);
-        Color& operator= (const Color &C);
 
     private:
         uint8_t r;

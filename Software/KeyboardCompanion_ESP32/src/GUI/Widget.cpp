@@ -87,7 +87,7 @@ void Widget::connect (WidgetSignal signal, SignalSlot slot) {
 }
 
 
-void Widget::emmit (WidgetSignal signal) {
+void Widget::emit (WidgetSignal signal) {
     WidgetSignal* sig = &signal;
 
     while (sig != nullptr) {

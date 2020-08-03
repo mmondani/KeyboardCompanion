@@ -50,6 +50,8 @@ class TouchHandler {
         uint32_t tftWidth;
         uint32_t tftHeight;
         SoftTimer debounceTimer;
+        uint16_t x, y;
+        uint8_t z;
 
         void getRotatedXY (uint16_t* x, uint16_t* y);
         void gotoState (TouchHandler::State nextState);

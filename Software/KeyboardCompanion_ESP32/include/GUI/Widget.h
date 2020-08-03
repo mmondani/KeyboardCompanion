@@ -53,7 +53,7 @@ class Widget {
         void show ();
         void hide ();
         static void connect (WidgetSignal signal, SignalSlot slot);
-        void emmit (WidgetSignal signal);
+        void emit (WidgetSignal signal);
         virtual void draw(TFT_eSPI* tft) = 0;
         virtual void clearArea(TFT_eSPI* tft) = 0;
         virtual void onClick() = 0;

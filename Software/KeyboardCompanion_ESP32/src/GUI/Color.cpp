@@ -99,13 +99,3 @@ void Color::copy (const Color* C) {
     b = C->b;
     alpha = C->alpha;
 }
-
-
-Color& Color::operator= (const Color &C ) { 
-    r = C.r;
-    g = C.g;
-    b = C.b;
-    alpha = C.alpha;
-
-    return *this;
-}

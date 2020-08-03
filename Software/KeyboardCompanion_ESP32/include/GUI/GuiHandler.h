@@ -5,6 +5,7 @@
 #include <Adafruit_STMPE610.h>
 #include "TouchHandler.h"
 #include "Widgets.h"
+#include "../Screens/Screens.h"
 #include "../RingBuffer.h"
 
 
@@ -30,6 +31,8 @@ class GuiHandler {
         uint8_t rotation;
         uint16_t tftWidth;
         uint16_t tftHeight;
+
+        TestScreen testScreen;
 };
 
 

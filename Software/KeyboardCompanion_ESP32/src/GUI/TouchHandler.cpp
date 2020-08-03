@@ -38,8 +38,7 @@ void TouchHandler::begin(Adafruit_STMPE610* touch, uint8_t rotation, uint32_t tf
 
 
 void TouchHandler::handler () {
-    uint16_t x, y;
-    uint8_t z;
+    uint16_t auxX, auxY;
 
     switch (state) {
         case IDLE:
@@ -63,14 +62,16 @@ void TouchHandler::handler () {
                         touch->readData(&x, &y, &z);
                     }
 
-                    getRotatedXY(&x, &y);
-
                     if (touchEventBuffer != nullptr) {
                         TouchHandler::TouchEvent* event = touchEventBuffer->getFreeSlot();
 
                         if (event != nullptr) {
-                            event->x = x;
-                            event->y = y;
+                            auxX = x;
+                            auxY = y;
+                            getRotatedXY(&auxX, &auxY);
+
+                            event->x = auxX;
+                            event->y = auxY;
                             event->type = TouchHandler::TouchEventType::CLICK;
                         }
                     }
@@ -107,8 +108,12 @@ void TouchHandler::handler () {
                         TouchHandler::TouchEvent* event = touchEventBuffer->getFreeSlot();
 
                         if (event != nullptr) {
-                            event->x = x;
-                            event->y = y;
+                            auxX = x;
+                            auxY = y;
+                            getRotatedXY(&auxX, &auxY);
+
+                            event->x = auxX;
+                            event->y = auxY;
                             event->type = TouchHandler::TouchEventType::RELEASE;
                         }
                     }
