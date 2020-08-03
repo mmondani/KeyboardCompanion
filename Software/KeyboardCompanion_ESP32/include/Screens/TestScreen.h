@@ -14,6 +14,7 @@ class TestScreen {
         void onRelease(uint32_t x, uint32_t y);
 
     private:    
+        Rectangle background;
         Rectangle rect1;
         Rectangle rect2;
 };

@@ -30,7 +30,7 @@ class Widget {
     public:
         enum WidgetEventType {
             DRAW,
-            CLEAR
+            HIDE
         };
 
         typedef struct {
@@ -41,19 +41,21 @@ class Widget {
 
         Widget(uint32_t x, uint32_t y, uint32_t w, uint32_t h);
         static void setWidgetEventBuffer(RingBuffer<WidgetEvent>* buffer);
-        uint32_t getX ();
-        uint32_t getY ();
-        uint32_t getW ();
-        uint32_t getH ();
-        void setX (uint32_t x);
-        void setY (uint32_t y);
-        void setW (uint32_t w);
-        void setH (uint32_t h);
+        const uint32_t& getX () const { return x; };
+        const uint32_t& getY () const { return y; };
+        const uint32_t& getW () const { return w; };
+        const uint32_t& getH () const { return h; };
+        const bool& getVisible () const { return visible; };
+        void setX (const uint32_t& x) { this->x = x; };
+        void setY (const uint32_t& y) { this->y = y; };
+        void setW (const uint32_t& w) { this->w = w; };
+        void setH (const uint32_t& h) { this->h = h; };
+        void setVisible (const bool& v);
         bool containsPoint (uint32_t x, uint32_t y);
         void show ();
         void hide ();
-        static void connect (WidgetSignal signal, SignalSlot slot);
-        void emit (WidgetSignal signal);
+        static void connect (WidgetSignal& signal, SignalSlot slot);
+        void emit (WidgetSignal& signal);
         virtual void draw(TFT_eSPI* tft) = 0;
         virtual void clearArea(TFT_eSPI* tft) = 0;
         virtual void onClick() = 0;
@@ -66,6 +68,7 @@ class Widget {
         uint32_t y;
         uint32_t w; 
         uint32_t h;
+        bool visible;
 
     private:
 };

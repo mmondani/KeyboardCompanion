@@ -72,7 +72,7 @@ void GuiHandler::handler() {
 
       if (event->type == Widget::WidgetEventType::DRAW)
         event->widget->draw(tft);
-      else if (event->type == Widget::WidgetEventType::CLEAR)
-        event->widget->clearArea(tft);
+      else if (event->type == Widget::WidgetEventType::HIDE)
+        testScreen.show();
     }
 }

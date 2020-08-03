@@ -9,6 +9,7 @@ Widget::Widget(uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
     this->y = y;
     this->w = w;
     this->h = h;
+    visible = true;
 }
 
 
@@ -17,45 +18,14 @@ void Widget::setWidgetEventBuffer(RingBuffer<Widget::WidgetEvent>* buffer) {
 }
 
 
-uint32_t Widget::getX () {
-    return x;
+void Widget::setVisible (const bool& v) {
+    visible = v;
+
+    if (v)
+        show();
+    else
+        hide();
 }
-
-
-uint32_t Widget::getY () {
-    return y;
-}
-
-
-uint32_t Widget::getW () {
-    return w;
-}
-
-
-uint32_t Widget::getH () {
-    return h;
-}
-
-
-void Widget::setX (uint32_t x) {
-    this->x = x;
-}
-
-
-void Widget::setY (uint32_t y) {
-    this->y = y;
-}
-
-
-void Widget::setW (uint32_t w) {
-    this->w = w;
-}
-
-
-void Widget::setH (uint32_t h) {
-    this->h = h;
-}
-
 
 bool Widget::containsPoint (uint32_t x, uint32_t y) {
     return ((x >= this->x && x <= (this->x + this->w)) && ((y >= this->y && y <= (this->y + this->h))));
@@ -77,17 +47,17 @@ void Widget::hide () {
         Widget::WidgetEvent* event = widgetEventBuffer->getFreeSlot();
         
         event->widget = this;
-        event->type = Widget::WidgetEventType::CLEAR;
+        event->type = Widget::WidgetEventType::HIDE;
     }
 }
 
 
-void Widget::connect (WidgetSignal signal, SignalSlot slot) {
+void Widget::connect (WidgetSignal& signal, SignalSlot slot) {
     signal.add(slot);
 }
 
 
-void Widget::emit (WidgetSignal signal) {
+void Widget::emit (WidgetSignal& signal) {
     WidgetSignal* sig = &signal;
 
     while (sig != nullptr) {
