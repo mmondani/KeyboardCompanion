@@ -38,6 +38,12 @@ class Widget {
             WidgetEventType type;
         } WidgetEvent;
 
+        enum TextHAlign {
+            LEFT,
+            CENTER,
+            RIGHT
+        };
+
 
         Widget(uint32_t x, uint32_t y, uint32_t w, uint32_t h);
         static void setWidgetEventBuffer(RingBuffer<WidgetEvent>* buffer);

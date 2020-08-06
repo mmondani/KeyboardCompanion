@@ -5,6 +5,7 @@
 #include "Screen.h"
 #include "Widget.h"
 #include "Rectangle.h"
+#include "Label.h"
 
 
 

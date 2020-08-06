@@ -79,9 +79,22 @@ void Color::setColor (uint32_t color) {
 
 
 void Color::multiply (uint32_t num, uint32_t den) {
-    this->r = (this->r * num) / den;
-	this->g = (this->g * num) / den;
-	this->b = (this->b * num) / den;
+    uint32_t aux;
+
+    aux = (this->r * num) / den;
+    if (aux > 255)
+        aux = 255;
+    this->r = aux;
+
+    aux = (this->g * num) / den;
+    if (aux > 255)
+        aux = 255;
+	this->g = aux;
+
+    aux = (this->b * num) / den;
+    if (aux > 255)
+        aux = 255;
+	this->b = aux;
 }
 
 
