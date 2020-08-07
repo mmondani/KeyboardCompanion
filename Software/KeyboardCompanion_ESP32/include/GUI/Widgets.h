@@ -6,6 +6,7 @@
 #include "Widget.h"
 #include "Rectangle.h"
 #include "Label.h"
+#include "Button.h"
 
 
 

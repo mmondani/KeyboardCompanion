@@ -3,16 +3,18 @@
 
 
 TestScreen::TestScreen()
-    : Screen(widgetList, 4),
+    : Screen(widgetList, 5),
     background (0, 0, 240, 320, 0xcccccc),
     rect1(10, 10, 100, 50, 0xff0000, true, 0x00ff00),
     rect2(50, 100, 50, 100, 0x00ff00, true, 0x0000ff),
-    label1(20, 250, 200, 30, 2, "Hola mundo", Widget::TextHAlign::CENTER, 0x555555, true, 0x00dddd, true) {
+    label1(20, 250, 200, 30, 2, "Hola mundo", Widget::TextHAlign::CENTER, 0x555555, true, 0x00dddd, true),
+    button1(150, 100, 80, 100, 2, "Click", Widget::TextHAlign::CENTER, 0x555555, true, 0x00dddd, true) {
 
     widgetList[0] = &background;
     widgetList[1] = &rect1;
     widgetList[2] = &rect2;
     widgetList[3] = &label1;
+    widgetList[4] = &button1;
 
     rect1.setClickable(true);
     rect2.setVisible(false);

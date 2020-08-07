@@ -12,8 +12,6 @@ class Label : public Widget {
                     uint32_t textColor = 0, bool background = true, uint32_t bgColor = 0, bool border = false, uint32_t borderColor = 0);
         void draw(TFT_eSPI* tft);
         void clearArea(TFT_eSPI* tft);
-        void onClick();
-        void onRelease();
         void setBackgroundColor (uint32_t color);
         void setBorderColor (uint32_t color);
         void setBorder(const bool& border);
@@ -28,9 +26,6 @@ class Label : public Widget {
         const TextHAlign& getTextHAlign () const {return textHAlign;}
 
     protected:
-
-
-    private:
         bool border;
         bool background;
         char text[50];
@@ -39,6 +34,8 @@ class Label : public Widget {
         uint32_t backgroundColor; 
         uint32_t borderColor;
         uint32_t textColor;
+
+
 };
 
 

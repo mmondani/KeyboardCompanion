@@ -11,11 +11,12 @@ class TestScreen : public Screen {
         TestScreen();
 
     private:    
-        Widget* widgetList[4];
+        Widget* widgetList[5];
         Rectangle background;
         Rectangle rect1;
         Rectangle rect2;
         Label label1;
+        Button button1;
 };
 
 
