@@ -52,20 +52,27 @@ class Widget {
         const uint32_t& getW () const { return w; };
         const uint32_t& getH () const { return h; };
         const bool& getVisible () const { return visible; };
+        const bool& getClickable () const { return clickable; };
+        const bool& getClicked () const { return clicked; };
         void setX (const uint32_t& x) { this->x = x; };
         void setY (const uint32_t& y) { this->y = y; };
         void setW (const uint32_t& w) { this->w = w; };
         void setH (const uint32_t& h) { this->h = h; };
         void setVisible (const bool& v);
+        void setClickable (const bool& c) { this->clickable = c; };
+        void setClicked (const bool& c) { this->clicked = c; };
         bool containsPoint (uint32_t x, uint32_t y);
         void show ();
         void hide ();
+        void onClick();
+        void onRelease();
         static void connect (WidgetSignal& signal, SignalSlot slot);
         void emit (WidgetSignal& signal);
         virtual void draw(TFT_eSPI* tft) = 0;
         virtual void clearArea(TFT_eSPI* tft) = 0;
-        virtual void onClick() = 0;
-        virtual void onRelease()  = 0;
+
+        WidgetSignal click;
+        WidgetSignal release;
 
 
     protected:
@@ -75,6 +82,8 @@ class Widget {
         uint32_t w; 
         uint32_t h;
         bool visible;
+        bool clickable;
+        bool clicked;
 
     private:
 };

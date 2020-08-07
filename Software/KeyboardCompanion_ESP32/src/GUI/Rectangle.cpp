@@ -8,25 +8,24 @@ Rectangle::Rectangle(uint32_t x, uint32_t y, uint32_t w, uint32_t h,
     this->border = border;
     clickable = false;
 
-    this->backgroundColorRelease = new Color(bgColor);
-    this->borderColorRelease = new Color(borderColor);
-
-    this->backgroundColor = this->backgroundColorRelease;
-    this->borderColor = this->borderColorRelease;
-
-    this->backgroundColorClick = new Color();
-    this->backgroundColorClick->copy(this->backgroundColor);
-    this->backgroundColorClick->multiply(1, 2);
-    this->borderColorClick = new Color(0xff0000);
+    this->backgroundColor = bgColor;
+    this->borderColor = borderColor;
 }
 
 
 void Rectangle::draw(TFT_eSPI* tft) {
     if (visible) {
-        tft->fillRect(x, y, w, h, backgroundColor->to565Format());
+        if (clicked)
+            tft->fillRect(x, y, w, h, Color::to565Format(Color::scale(backgroundColor, 1, 2)));
+        else
+            tft->fillRect(x, y, w, h, Color::to565Format(backgroundColor));
 
-        if (border)
-            tft->drawRect(x, y, w, h, borderColor->to565Format());
+        if (border) {
+            if (clicked)
+                tft->drawRect(x, y, w, h, Color::to565Format(0xff0000));
+            else
+                tft->drawRect(x, y, w, h, Color::to565Format(borderColor));
+        }
     }
 }
 
@@ -36,37 +35,11 @@ void Rectangle::clearArea(TFT_eSPI* tft) {
 }
 
 
-void Rectangle::onClick() {
-    if (clickable) {
-        backgroundColor = backgroundColorClick;
-        borderColor = borderColorClick;
-
-        show();
-
-        emit(this->click);
-    }
-}
-
-
-void Rectangle::onRelease() {
-    if (clickable) {
-        backgroundColor = backgroundColorRelease;
-        borderColor = borderColorRelease;
-
-        show();
-
-        emit(this->release);
-    }
-}
-
-
 void Rectangle::setBackgroundColor (uint32_t color) {
-    backgroundColor->setColor(color);
-    this->backgroundColorClick->copy(this->backgroundColor);
-    this->backgroundColorClick->multiply(1, 2);
+    backgroundColor = color;
 }
 
 
 void Rectangle::setBorderColor (uint32_t color) {
-    borderColor->setColor(color);
+    borderColor = color;
 }

@@ -12,30 +12,16 @@ class Rectangle : public Widget {
                     uint32_t bgColor = 0, bool border = false, uint32_t borderColor = 0);
         void draw(TFT_eSPI* tft);
         void clearArea(TFT_eSPI* tft);
-        void onClick();
-        void onRelease();
         void setBackgroundColor (uint32_t color);
         void setBorderColor (uint32_t color);
         void setBorder(const bool& border) { this->border = border; };
         const bool& getBorder () const { return border; };
-        void setClickable(const bool& value) { clickable = value; };
-        const bool& getClickable() const { return clickable; };
-
-        WidgetSignal click;
-        WidgetSignal release;
-
-    protected:
 
 
     private:
         bool border;
-        bool clickable;
-        Color* backgroundColor; 
-        Color* borderColor;
-        Color* backgroundColorRelease; 
-        Color* borderColorRelease;
-        Color* backgroundColorClick; 
-        Color* borderColorClick;
+        uint32_t backgroundColor; 
+        uint32_t borderColor;
 };
 
 

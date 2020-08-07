@@ -10,6 +10,8 @@ Widget::Widget(uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
     this->w = w;
     this->h = h;
     visible = true;
+    clickable = true;
+    clicked = false;
 }
 
 
@@ -48,6 +50,29 @@ void Widget::hide () {
         
         event->widget = this;
         event->type = Widget::WidgetEventType::HIDE;
+    }
+}
+
+
+void Widget::onClick() {
+
+    if (clickable) {
+        clicked = true;
+
+        show();
+
+        emit(this->click);
+    }
+}
+
+
+void Widget::onRelease() {
+    if (clickable) {
+        clicked = false;
+
+        show();
+
+        emit(this->release);
     }
 }
 

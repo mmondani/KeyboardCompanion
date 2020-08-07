@@ -20,8 +20,6 @@ class Label : public Widget {
         const bool& getBorder () const { return border; };
         void setBackground(const bool& background);
         const bool& getBackground () const { return background; };
-        void setClickable(const bool& value) { clickable = value; };
-        const bool& getClickable() const { return clickable; };
         void setText(const char* text);
         const char* getText() const { return text; }; 
         void setTextSize (const uint8_t& size);
@@ -29,28 +27,18 @@ class Label : public Widget {
         void setTextHAlign (const TextHAlign& align);
         const TextHAlign& getTextHAlign () const {return textHAlign;}
 
-        WidgetSignal click;
-        WidgetSignal release;
-
     protected:
 
 
     private:
         bool border;
         bool background;
-        bool clickable;
         char text[50];
         uint8_t textSize;
         TextHAlign textHAlign;
-        Color* backgroundColor; 
-        Color* borderColor;
-        Color* textColor;
-        Color* backgroundColorRelease; 
-        Color* borderColorRelease;
-        Color* textColorRelease;
-        Color* backgroundColorClick; 
-        Color* borderColorClick;
-        Color* textColorClick;
+        uint32_t backgroundColor; 
+        uint32_t borderColor;
+        uint32_t textColor;
 };
 
 

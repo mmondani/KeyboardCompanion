@@ -62,6 +62,29 @@ uint32_t Color::to565Format() {
 }
 
 
+uint32_t Color::scale (uint32_t color, uint32_t num, uint32_t den) {
+    uint32_t r, g, b;
+
+    r = (color & 0x00FF0000) >> 16;
+    g = (color & 0x0000FF00) >> 8;
+    b = (color & 0x000000FF);
+
+    r = (r * num) / den;
+    if (r > 255)
+        r = 255;
+
+    g = (g * num) / den;
+    if (g > 255)
+        g = 255;
+
+    b = (b * num) / den;
+    if (b > 255)
+        b = 255;
+
+    return ((r << 16) | (g << 8) | b);
+}
+
+
 void Color::setColor (uint8_t r, uint8_t g, uint8_t b, uint8_t alpha) {
     this->r = r;
     this->g = g;

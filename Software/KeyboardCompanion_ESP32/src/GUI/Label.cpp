@@ -18,21 +18,10 @@ Label::Label(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t textSize, c
         this->text[0] = '\0';
 
 
-    this->backgroundColorRelease = new Color(bgColor);
-    this->borderColorRelease = new Color(borderColor);
-    this->textColorRelease = new Color(textColor);
+    this->backgroundColor = bgColor;
+    this->borderColor = borderColor;
+    this->textColor = textColor;
 
-    this->backgroundColor = this->backgroundColorRelease;
-    this->borderColor = this->borderColorRelease;
-    this->textColor = this->borderColorRelease;
-
-    this->backgroundColorClick = new Color();
-    this->backgroundColorClick->copy(this->backgroundColor);
-    this->backgroundColorClick->multiply(1, 2);             // Color más oscuro
-    this->borderColorClick = new Color(0xff0000);
-    this->textColorClick = new Color();
-    this->textColorClick->copy(this->textColor);
-    this->textColorClick->multiply(3, 1);                   // Color más claro
 }
 
 
@@ -44,15 +33,27 @@ void Label::draw(TFT_eSPI* tft) {
 
     if (visible) {
 
-        if (background)
-            tft->fillRect(x, y, w, h, backgroundColor->to565Format());
+        if (background) {
+            if (clicked)
+                tft->fillRect(x, y, w, h, Color::to565Format(Color::scale(backgroundColor, 1, 2)));
+            else
+                tft->fillRect(x, y, w, h, Color::to565Format(backgroundColor));
+        }
 
-        if (border)
-            tft->drawRect(x, y, w, h, borderColor->to565Format());
+        if (border) {
+            if (clicked) 
+                tft->drawRect(x, y, w, h, Color::to565Format(0xff0000));
+            else
+                tft->drawRect(x, y, w, h, Color::to565Format(borderColor));
+        }
 
 
         if (text != nullptr) {
-            tft->setTextColor(textColor->to565Format());
+            if (clicked)
+                tft->setTextColor(Color::to565Format(Color::scale(textColor, 3, 1)));
+            else
+                tft->setTextColor(Color::to565Format(textColor));
+
             tft->setTextSize(textSize);
             
             // Posición del texto dentro del label
@@ -90,41 +91,15 @@ void Label::clearArea(TFT_eSPI* tft) {
 }
 
 
-void Label::onClick() {
-    if (clickable) {
-        backgroundColor = backgroundColorClick;
-        borderColor = borderColorClick;
-        textColor = textColorClick;
-
-        show();
-
-        emit(this->click);
-    }
-}
-
-
-void Label::onRelease() {
-    if (clickable) {
-        backgroundColor = backgroundColorRelease;
-        borderColor = borderColorRelease;
-        textColor = textColorRelease;
-
-        show();
-
-        emit(this->release);
-    }
-}
 
 
 void Label::setBackgroundColor (uint32_t color) {
-    backgroundColor->setColor(color);
-    this->backgroundColorClick->copy(this->backgroundColor);
-    this->backgroundColorClick->multiply(1, 2);
+    backgroundColor = color;
 }
 
 
 void Label::setBorderColor (uint32_t color) {
-    borderColor->setColor(color);
+    borderColor =color ;
 }
 
 
