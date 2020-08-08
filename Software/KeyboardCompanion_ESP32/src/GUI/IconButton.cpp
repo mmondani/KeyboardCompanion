@@ -45,7 +45,7 @@ void IconButton::draw(TFT_eSPI* tft) {
                     Serial.println("Jpeg file format not supported!");
 
                 if (clicked)
-                    tft->drawRect(x, y, w, h, Color::to565Format(0xff0000));
+                    tft->drawRect(x, y, w, h, Color::to565Format(COLOR_ACCENT));
             } 
             
             fsProvider->give();

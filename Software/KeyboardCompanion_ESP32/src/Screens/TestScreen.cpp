@@ -8,7 +8,7 @@ TestScreen::TestScreen(FSProvider* fsProvider)
     rect1(10, 10, 100, 50, 0xff0000, true, 0x00ff00),
     rect2(50, 100, 50, 100, 0x00ff00, true, 0x0000ff),
     label1(20, 250, 200, 30, 2, "Hola mundo", Widget::TextHAlign::CENTER, 0x555555, true, 0x00dddd, true),
-    button1(150, 100, 80, 100, 2, "Click", Widget::TextHAlign::CENTER, 0x555555, true, 0x00dddd, true),
+    button1(150, 100, 80, 100, 2, "Click", Widget::TextHAlign::CENTER, COLOR_TEXT, true, COLOR_PRIMARY, true),
     iconButton1(150, 10, 70, 70, fsProvider, "1.jpg") {
 
     widgetList[0] = &background;

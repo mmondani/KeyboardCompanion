@@ -22,7 +22,7 @@ void Rectangle::draw(TFT_eSPI* tft) {
 
         if (border) {
             if (clicked)
-                tft->drawRect(x, y, w, h, Color::to565Format(0xff0000));
+                tft->drawRect(x, y, w, h, Color::to565Format(COLOR_ACCENT));
             else
                 tft->drawRect(x, y, w, h, Color::to565Format(borderColor));
         }

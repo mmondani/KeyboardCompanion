@@ -4,7 +4,7 @@
 #include <functional>
 #include <TFT_eSPI.h>
 #include "../RingBuffer.h"
-
+#include "ProjectColors.h"
 
 typedef std::function<void(void)> SignalSlot;
 
