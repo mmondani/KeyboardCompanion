@@ -7,6 +7,7 @@
 #include "Rectangle.h"
 #include "Label.h"
 #include "Button.h"
+#include "IconButton.h"
 
 
 

@@ -1,4 +1,5 @@
 #include "../../include/GUI/GuiHandler.h"
+#include "../../include/GUI/FSProvider.h"
 
 
 GuiHandler* GuiHandler::instance = nullptr;
@@ -6,13 +7,16 @@ GuiHandler* GuiHandler::instance = nullptr;
 
 
 GuiHandler* GuiHandler::getInstance() {
-    if (instance == nullptr)
+    if (instance == nullptr) {
+
         instance = new GuiHandler();
+    }
     
     return instance;
 }
 
-GuiHandler::GuiHandler() {
+GuiHandler::GuiHandler() 
+      : testScreen(FSProvider::getInstance()) {
   touchHandler = TouchHandler::getInstance();
   touchEventBuffer = new RingBuffer<TouchHandler::TouchEvent>(10);
   widgetEventBuffer = new RingBuffer<Widget::WidgetEvent>(20);

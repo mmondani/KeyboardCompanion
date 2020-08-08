@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>
+#include <FS.h>
+#include <SD.h>
 #include <Adafruit_STMPE610.h>
 #include "../include/GUI/Widgets.h"
 #include "../include/GUI/GuiHandler.h"
@@ -26,6 +28,19 @@ void setup() {
     Serial.println("STMPE not found!");
     while(1);
   }
+
+  if (!SD.begin(CS_SD)) {
+    Serial.println("Card Mount Failed");
+    return;
+  }
+  uint8_t cardType = SD.cardType();
+
+  if (cardType == CARD_NONE) {
+    Serial.println("No SD card attached");
+    return;
+  }
+
+  FSProvider::getInstance()->begin(&SD);
 
   guiHandler = GuiHandler::getInstance();
   guiHandler->begin(&tft, &touch, 0, tft.width(), tft.height());
