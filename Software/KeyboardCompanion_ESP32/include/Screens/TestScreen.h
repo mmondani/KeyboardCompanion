@@ -7,9 +7,16 @@
 #include "../GUI/FSProvider.h"
 
 
+namespace TestScreenCallbacks 
+{
+    typedef std::function<void(void)> IconClick;
+}
+
+
 class TestScreen : public Screen {
     public:
         TestScreen(FSProvider* fsProvider);
+        void setIconClickCallback (TestScreenCallbacks::IconClick callback);
 
     private:    
         Widget* widgetList[6];
@@ -19,6 +26,8 @@ class TestScreen : public Screen {
         Label label1;
         Button button1;
         IconButton iconButton1;
+
+        TestScreenCallbacks::IconClick iconClickCallback;
 };
 
 

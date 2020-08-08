@@ -11,6 +11,10 @@ TestScreen::TestScreen(FSProvider* fsProvider)
     button1(150, 100, 80, 100, 2, "Click", Widget::TextHAlign::CENTER, COLOR_TEXT, true, COLOR_PRIMARY, true),
     iconButton1(150, 10, 70, 70, fsProvider, "1.jpg") {
 
+
+    iconClickCallback = nullptr;
+
+
     widgetList[0] = &background;
     widgetList[1] = &rect1;
     widgetList[2] = &rect2;
@@ -44,4 +48,14 @@ TestScreen::TestScreen(FSProvider* fsProvider)
         this->label1.setTextSize(2);
         this->label1.show();
     });
+
+    Widget::connect(iconButton1.click, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback();
+    });
+}
+
+
+void TestScreen::setIconClickCallback (TestScreenCallbacks::IconClick callback) {
+    iconClickCallback = callback;
 }

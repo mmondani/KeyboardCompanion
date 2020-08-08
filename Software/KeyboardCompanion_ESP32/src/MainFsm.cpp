@@ -19,9 +19,13 @@ MainFsm::MainFsm()
 
 void MainFsm::begin () {
     GuiHandler::getInstance()->setScreen(&testScreen);
+
+    testScreen.setIconClickCallback([this](void) {
+        GuiHandler::getInstance()->setScreen(&testScreen);
+    });
 }
 
 
 void MainFsm::handler () {
-    
+
 }
