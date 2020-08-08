@@ -14,6 +14,7 @@ class GuiHandler {
         static GuiHandler* getInstance();
         void begin(TFT_eSPI* tft, Adafruit_STMPE610* touch, uint8_t rotation, uint16_t tftWidth, uint16_t tftHeight);
         void handler();
+        void setScreen(Screen* screen);
 
     protected:
         GuiHandler();
@@ -31,9 +32,7 @@ class GuiHandler {
         uint8_t rotation;
         uint16_t tftWidth;
         uint16_t tftHeight;
-
         Screen* currentScreen;
-        TestScreen testScreen;
 };
 
 

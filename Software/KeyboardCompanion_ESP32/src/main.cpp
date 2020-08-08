@@ -4,8 +4,8 @@
 #include <FS.h>
 #include <SD.h>
 #include <Adafruit_STMPE610.h>
-#include "../include/GUI/Widgets.h"
 #include "../include/GUI/GuiHandler.h"
+#include "MainFsm.h"
 
 
 #define CS_TOUCH  21
@@ -15,8 +15,8 @@
 TFT_eSPI tft = TFT_eSPI(); 
 Adafruit_STMPE610 touch = Adafruit_STMPE610(CS_TOUCH);
 
-
 GuiHandler* guiHandler;
+MainFsm* mainFsm;
 
 
 void setup() {
@@ -45,8 +45,11 @@ void setup() {
   guiHandler = GuiHandler::getInstance();
   guiHandler->begin(&tft, &touch, 0, tft.width(), tft.height());
 
+  mainFsm = MainFsm::getInstance();
+  mainFsm->begin();
 }
 
 void loop() {
   guiHandler->handler();
+  mainFsm->handler();
 }
