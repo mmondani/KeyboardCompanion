@@ -87,7 +87,7 @@ void Widget::emit (WidgetSignal& signal) {
 
     while (sig != nullptr) {
         if (sig->getSlot() != nullptr)
-            sig->getSlot() ();
+            sig->getSlot() (this);
 
         sig = sig->getNext();
     }
@@ -95,28 +95,28 @@ void Widget::emit (WidgetSignal& signal) {
 
 
 
-WidgetSignal::WidgetSignal() {
+Widget::WidgetSignal::WidgetSignal() {
     this->slot = nullptr;
     this->next = nullptr;
 }
 
 
-WidgetSignal::WidgetSignal(SignalSlot slot) {
+Widget::WidgetSignal::WidgetSignal(SignalSlot slot) {
     this->slot = slot;
     this->next = nullptr;
 }
 
 
-void WidgetSignal::add(SignalSlot slot) {
+void Widget::WidgetSignal::add(SignalSlot slot) {
     this->next = new WidgetSignal(slot);
 }
 
 
-WidgetSignal* WidgetSignal::getNext() {
+Widget::WidgetSignal* Widget::WidgetSignal::getNext() {
     return next;
 }
 
 
-SignalSlot WidgetSignal::getSlot() {
+Widget::SignalSlot Widget::WidgetSignal::getSlot() {
     return slot;
 }

@@ -23,22 +23,22 @@ TestScreen::TestScreen(FSProvider* fsProvider)
     label1.setClickable(true);
 
 
-    Widget::connect(rect1.click, [this](void) {
+    Widget::connect(rect1.click, [this](Widget* widget) {
         this->rect2.setVisible(true);
     });
 
-    Widget::connect(rect1.release, [this](void) {
+    Widget::connect(rect1.release, [this](Widget* widget) {
         this->rect2.setVisible(false);
     });
 
-    Widget::connect(label1.click, [this](void) {
+    Widget::connect(label1.click, [this](Widget* widget) {
         this->label1.setText("Click");
         this->label1.setTextHAlign(Widget::TextHAlign::RIGHT);
         this->label1.setTextSize(1);
         this->label1.show();
     });
 
-    Widget::connect(label1.release, [this](void) {
+    Widget::connect(label1.release, [this](Widget* widget) {
         this->label1.setText("Hola mundo");
         this->label1.setTextHAlign(Widget::TextHAlign::CENTER);
         this->label1.setTextSize(2);

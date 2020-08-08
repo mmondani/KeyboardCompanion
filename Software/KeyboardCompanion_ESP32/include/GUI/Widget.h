@@ -6,28 +6,24 @@
 #include "../RingBuffer.h"
 #include "ProjectColors.h"
 
-typedef std::function<void(void)> SignalSlot;
-
-
-
-
-class WidgetSignal {
-    public:
-        WidgetSignal();
-        WidgetSignal(SignalSlot slot);
-        void add(SignalSlot slot);
-        WidgetSignal* getNext();
-        SignalSlot getSlot();
-
-    private:
-        WidgetSignal* next;
-        SignalSlot slot;
-};
-
-
 
 class Widget {
     public:
+        typedef std::function<void(Widget* widget)> SignalSlot;
+
+        class WidgetSignal {
+            public:
+                WidgetSignal();
+                WidgetSignal(SignalSlot slot);
+                void add(SignalSlot slot);
+                WidgetSignal* getNext();
+                SignalSlot getSlot();
+
+            private:
+                WidgetSignal* next;
+                SignalSlot slot;
+        };
+
         enum WidgetEventType {
             DRAW,
             HIDE
