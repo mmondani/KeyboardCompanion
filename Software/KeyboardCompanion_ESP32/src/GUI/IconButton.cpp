@@ -66,8 +66,15 @@ void IconButton::clearArea(TFT_eSPI* tft) {
 
 
 void IconButton::setFileName(const char* fileName) {
-    if (fileName != nullptr)
-        strcpy(this->fileName, fileName);
+   
+    if (fileName != nullptr)  {
+        if (fileName[0] != '/') {
+            this->fileName[0] = '/';
+            strcpy(&(this->fileName[1]), fileName);
+        }
+        else
+            strcpy(this->fileName, fileName);
+    }
     else
         this->fileName[0] = '\0';
 }

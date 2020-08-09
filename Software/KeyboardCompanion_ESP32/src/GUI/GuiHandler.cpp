@@ -19,6 +19,8 @@ GuiHandler::GuiHandler() {
   touchHandler = TouchHandler::getInstance();
   touchEventBuffer = new RingBuffer<TouchHandler::TouchEvent>(10);
   widgetEventBuffer = new RingBuffer<Widget::WidgetEvent>(20);
+
+  currentScreen = nullptr;
 }
 
 
@@ -54,7 +56,8 @@ void GuiHandler::handler() {
       Serial.println(event->y);
       */
 
-      currentScreen->onClick(event->x, event->y);
+      if (currentScreen != nullptr)
+        currentScreen->onClick(event->x, event->y);
     }
     else if (event->type == TouchHandler::TouchEventType::RELEASE) {
       /*
@@ -63,8 +66,8 @@ void GuiHandler::handler() {
       Serial.print(" ");
       Serial.println(event->y);
       */
-
-      currentScreen->onRelease(event->x, event->y);
+      if (currentScreen != nullptr)
+        currentScreen->onRelease(event->x, event->y);
     }
   }
 
@@ -73,8 +76,10 @@ void GuiHandler::handler() {
 
     if (event->type == Widget::WidgetEventType::DRAW)
       event->widget->draw(tft);
-    else if (event->type == Widget::WidgetEventType::HIDE)
-      currentScreen->show();
+    else if (event->type == Widget::WidgetEventType::HIDE) {
+      if (currentScreen != nullptr)
+        currentScreen->show();
+    }
   }
 }
 
