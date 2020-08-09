@@ -27,10 +27,19 @@ MainFsm::MainFsm()
 
 
 void MainFsm::begin () {
-    
+
     iconGridScreen.setIconClickCallback([this](uint32_t iconNumber) {
         Serial.print("Icono: ");
         Serial.println(iconNumber);
+    });
+
+
+    iconGridScreen.setNavigationEventCallback([this](IconGridScreenCallbacks::NavigationEvent event) {
+        switch(event) {
+            case IconGridScreenCallbacks::NavigationEvent::LEFT: Serial.println(F("Navigation - Left")); break;
+            case IconGridScreenCallbacks::NavigationEvent::MAIN: Serial.println(F("Navigation - Main")); break;
+            case IconGridScreenCallbacks::NavigationEvent::RIGHT: Serial.println(F("Navigation - RIGHT")); break;
+        }
     });
 }
 

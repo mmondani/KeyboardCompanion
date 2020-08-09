@@ -28,7 +28,7 @@ class IconGridScreen : public Screen {
         void setNavigationEventCallback (IconGridScreenCallbacks::NavigationClick callback);
 
     private:    
-        Widget* widgetList[10];
+        Widget* widgetList[14];
         Rectangle background;
         IconButton iconButton0;
         IconButton iconButton1;
@@ -39,6 +39,10 @@ class IconGridScreen : public Screen {
         IconButton iconButton6;
         IconButton iconButton7;
         IconButton iconButton8;
+        Rectangle headerBackground;
+        Label leftLabel;
+        Label titleLabel;
+        Label rightLabel;
 
         IconGridScreenCallbacks::IconClick iconClickCallback;
         IconGridScreenCallbacks::NavigationClick navigationEventCallback;
