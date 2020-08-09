@@ -24,6 +24,7 @@ class MainFsm {
         static MainFsm* instance;
 
         TestScreen testScreen;
+        TestScreen2 testScreen2;
 };
 
 

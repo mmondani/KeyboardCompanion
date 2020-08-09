@@ -49,7 +49,7 @@ TestScreen::TestScreen(FSProvider* fsProvider)
         this->label1.show();
     });
 
-    Widget::connect(iconButton1.click, [this](Widget* widget) {
+    Widget::connect(iconButton1.release, [this](Widget* widget) {
         if (iconClickCallback != nullptr)
             iconClickCallback();
     });
