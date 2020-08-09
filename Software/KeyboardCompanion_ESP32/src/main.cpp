@@ -43,7 +43,7 @@ void setup() {
   FSProvider::getInstance()->begin(&SD);
 
   guiHandler = GuiHandler::getInstance();
-  guiHandler->begin(&tft, &touch, 0, tft.width(), tft.height());
+  guiHandler->begin(&tft, &touch, 1, tft.width(), tft.height());
 
   mainFsm = MainFsm::getInstance();
   mainFsm->begin();

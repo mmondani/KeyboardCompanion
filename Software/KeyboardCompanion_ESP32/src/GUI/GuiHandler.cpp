@@ -35,7 +35,7 @@ void GuiHandler::begin(TFT_eSPI* tft, Adafruit_STMPE610* touch, uint8_t rotation
   tft->fillScreen(Color::to565Format(0xffffff));
 
   Widget::setWidgetEventBuffer(widgetEventBuffer);
-  touchHandler->begin(touch, rotation, tftWidth, tftHeight, touchEventBuffer);
+  touchHandler->begin(touch, rotation, tft->width(), tft->height(), touchEventBuffer);
 }
 
 

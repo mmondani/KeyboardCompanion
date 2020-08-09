@@ -13,7 +13,7 @@
 
 IconGridScreen::IconGridScreen(FSProvider* fsProvider)
     : Screen(widgetList, 14),
-    background (0, 0, 240, 320, 0xffffff),
+    /*background (0, 0, 240, 320, 0xffffff),
     iconButton0(GRID_OFFSET_X + 0 * CELL_WIDTH + CELL_PADDING_X, GRID_OFFSET_Y + 0 * CELL_HEIGHT + CELL_PADDING_Y, ICON_WIDTH, ICON_HEIGHT, fsProvider, "9.jpg"),
     iconButton1(GRID_OFFSET_X + 1 * CELL_WIDTH + CELL_PADDING_X, GRID_OFFSET_Y + 0 * CELL_HEIGHT + CELL_PADDING_Y, ICON_WIDTH, ICON_HEIGHT, fsProvider, "9.jpg"),
     iconButton2(GRID_OFFSET_X + 2 * CELL_WIDTH + CELL_PADDING_X, GRID_OFFSET_Y + 0 * CELL_HEIGHT + CELL_PADDING_Y, ICON_WIDTH, ICON_HEIGHT, fsProvider, "9.jpg"),
@@ -26,7 +26,21 @@ IconGridScreen::IconGridScreen(FSProvider* fsProvider)
     headerBackground (0, 0, 240, 30, COLOR_PRIMARY),
     leftLabel(0, 0, 30, 30, 2, "<", Widget::TextHAlign::CENTER, COLOR_TEXT, false),
     titleLabel(40, 0, 160, 30, 2, "Pagina", Widget::TextHAlign::CENTER, COLOR_TEXT, false),
-    rightLabel(210, 0, 30, 30, 2, ">", Widget::TextHAlign::CENTER, COLOR_TEXT, false){
+    rightLabel(210, 0, 30, 30, 2, ">", Widget::TextHAlign::CENTER, COLOR_TEXT, false){*/
+    background (0, 0, 320, 240, 0xffffff),
+    iconButton0(2, 50, 60, 60, fsProvider, "9.jpg"),
+    iconButton1(66, 50, 60, 60, fsProvider, "9.jpg"),
+    iconButton2(130, 50, 60, 60, fsProvider, "9.jpg"),
+    iconButton3(194, 50, 60, 60, fsProvider, "9.jpg"),
+    iconButton4(258, 50, 60, 60, fsProvider, "9.jpg"),
+    iconButton5(2, 115, 60, 60, fsProvider, "9.jpg"),
+    iconButton6(66, 115, 60, 60, fsProvider, "9.jpg"),
+    iconButton7(130, 115, 60, 60, fsProvider, "9.jpg"),
+    iconButton8(194, 115, 60, 60, fsProvider, "9.jpg"),
+    headerBackground (0, 0, 320, 40, COLOR_PRIMARY),
+    leftLabel(0, 0, 50, 40, 3, "<", Widget::TextHAlign::CENTER, COLOR_TEXT, false),
+    titleLabel(60, 0, 200, 40, 2, "Pagina", Widget::TextHAlign::CENTER, COLOR_TEXT, false),
+    rightLabel(270, 0, 50, 40, 3, ">", Widget::TextHAlign::CENTER, COLOR_TEXT, false){
 
 
     iconClickCallback = nullptr;
