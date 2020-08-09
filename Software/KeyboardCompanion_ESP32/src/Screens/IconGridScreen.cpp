@@ -123,6 +123,21 @@ void IconGridScreen::setIcon (uint32_t iconNumber, const char* fileName) {
 }
 
 
+void IconGridScreen::setPageTitle (const char* title) {
+    titleLabel.setText(title);
+}
+
+
+void IconGridScreen::setLeftNavigationVisibility(bool visible) {
+    leftLabel.setVisible(visible);
+}
+
+
+void IconGridScreen::setRighttNavigationVisibility(bool visible) {
+    rightLabel.setVisible(visible);
+}
+
+
 void IconGridScreen::setIconClickCallback (IconGridScreenCallbacks::IconClick callback) {
     iconClickCallback = callback;
 }

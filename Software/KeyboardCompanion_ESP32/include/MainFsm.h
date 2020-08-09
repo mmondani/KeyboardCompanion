@@ -42,12 +42,21 @@ class MainFsm {
         JsonObject mainJsonObject;
         JsonObject pagesJsonObject;
         JsonObject gridsJsonObject;
+        const char* initialPage;
         const char* currentPage;
+        const char* prevPage;
+        const char* nextPage;
 
         TestScreen testScreen;
         TestScreen2 testScreen2;
         LoadingDataScreen loadingDataScreen;
         IconGridScreen iconGridScreen;
+
+        bool navigationLeftClick;
+        bool navigationMainClick;
+        bool navigationRightClick;
+        bool iconClick;
+        uint32_t iconNumberClicked;
 };
 
 

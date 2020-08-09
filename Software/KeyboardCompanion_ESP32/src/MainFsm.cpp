@@ -23,6 +23,16 @@ MainFsm::MainFsm()
 
     stateIn = true;
     stateOut = false;
+
+    navigationLeftClick = false;
+    navigationMainClick = false;
+    navigationRightClick = false;
+    iconClick = false;
+
+    initialPage = nullptr;
+    currentPage = nullptr;
+    prevPage = nullptr;
+    nextPage = nullptr;
 }
 
 
@@ -36,9 +46,9 @@ void MainFsm::begin () {
 
     iconGridScreen.setNavigationEventCallback([this](IconGridScreenCallbacks::NavigationEvent event) {
         switch(event) {
-            case IconGridScreenCallbacks::NavigationEvent::LEFT: Serial.println(F("Navigation - Left")); break;
-            case IconGridScreenCallbacks::NavigationEvent::MAIN: Serial.println(F("Navigation - Main")); break;
-            case IconGridScreenCallbacks::NavigationEvent::RIGHT: Serial.println(F("Navigation - RIGHT")); break;
+            case IconGridScreenCallbacks::NavigationEvent::LEFT: navigationLeftClick = true; break;
+            case IconGridScreenCallbacks::NavigationEvent::MAIN: navigationMainClick = true; break;
+            case IconGridScreenCallbacks::NavigationEvent::RIGHT: navigationRightClick = true; break;
         }
     });
 }
@@ -90,23 +100,24 @@ void MainFsm::handler () {
                     }
                     else {
                         mainJsonObject = jsonDoc.as<JsonObject>();
-                        const char* initialPage = mainJsonObject["initial_page"];
+                        const char* initial = mainJsonObject["initial_page"];
                         pagesJsonObject = mainJsonObject["pages"];
                         gridsJsonObject = mainJsonObject["grids"];
 
-                        if (!initialPage)
+                        if (!initial)
                             Serial.println(F("Error initial_page"));
                         else {
                             Serial.print(F("initial_page: "));
-                            Serial.println(initialPage);
+                            Serial.println(initial);
                         }
                         if (pagesJsonObject.isNull())
                             Serial.println(F("Error pages"));
                         if (gridsJsonObject.isNull())
                             Serial.println(F("Error grids"));
 
-                        if (initialPage && !pagesJsonObject.isNull() && !gridsJsonObject.isNull()) {
-                            currentPage = initialPage;
+                        if (initial && !pagesJsonObject.isNull() && !gridsJsonObject.isNull()) {
+                            currentPage = initial;
+                            initialPage = initial;
 
                             FSProvider::getInstance()->give();
                             showCurrentPage();
@@ -145,7 +156,33 @@ void MainFsm::handler () {
 
             }
             /*******************************************************************/
+            if (navigationLeftClick) {
+                navigationLeftClick = false;
 
+                if (prevPage != nullptr) {
+                    currentPage = prevPage;
+                    showCurrentPage();
+                }
+            }
+            else if (navigationRightClick) {
+                navigationRightClick = false;
+
+                if (nextPage != nullptr) {
+                    currentPage = nextPage;
+                    showCurrentPage();
+                }
+            }
+            else if (navigationMainClick) {
+                navigationMainClick = false;
+
+                if (initialPage != nullptr && currentPage != initialPage) {
+                    currentPage = initialPage;
+                    showCurrentPage();
+                }
+            }
+            else if (iconClick) {
+                iconClick = false;
+            }
             /*******************************************************************/
             if (stateOut) {
                 stateOut = false;
@@ -188,7 +225,36 @@ void MainFsm::showCurrentPage () {
     JsonObject pageJsonObject = pagesJsonObject[currentPage];
 
     if (!pageJsonObject.isNull()) {
+
         if (strcmp(pageJsonObject["type"], "grid") == 0) {
+            
+            const char* pageTitle = pageJsonObject["title"];
+            if (pageTitle)
+                iconGridScreen.setPageTitle(pageTitle);
+            
+           
+           JsonVariant prev = pageJsonObject["prev"];
+            if (!prev.isNull()) {
+                iconGridScreen.setLeftNavigationVisibility(true);
+                prevPage = prev.as<const char*>();
+            }
+            else {
+                iconGridScreen.setLeftNavigationVisibility(false);
+                prevPage = nullptr;
+            }
+            
+            
+            JsonVariant next = pageJsonObject["next"];
+            if (!next.isNull()) {
+                iconGridScreen.setRighttNavigationVisibility(true);
+                nextPage = next.as<const char*>();
+            }
+            else {
+                iconGridScreen.setRighttNavigationVisibility(false);
+                nextPage = nullptr;
+            }
+
+
             const char* gridNumber = pageJsonObject["grid"];
 
             Serial.print(F("Tipo de page: "));

@@ -24,6 +24,9 @@ class IconGridScreen : public Screen {
     public:
         IconGridScreen(FSProvider* fsProvider);
         void setIcon (uint32_t iconNumber, const char* fileName);
+        void setPageTitle (const char* title);
+        void setLeftNavigationVisibility(bool visible);
+        void setRighttNavigationVisibility(bool visible);
         void setIconClickCallback (IconGridScreenCallbacks::IconClick callback);
         void setNavigationEventCallback (IconGridScreenCallbacks::NavigationClick callback);
 

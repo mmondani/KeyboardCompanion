@@ -23,10 +23,12 @@ void Widget::setWidgetEventBuffer(RingBuffer<Widget::WidgetEvent>* buffer) {
 void Widget::setVisible (const bool& v) {
     visible = v;
 
+    /*
     if (v)
         show();
     else
         hide();
+        */
 }
 
 bool Widget::containsPoint (uint32_t x, uint32_t y) {
@@ -56,7 +58,7 @@ void Widget::hide () {
 
 void Widget::onClick() {
 
-    if (clickable) {
+    if (clickable && visible) {
         clicked = true;
 
         show();
@@ -67,7 +69,7 @@ void Widget::onClick() {
 
 
 void Widget::onRelease() {
-    if (clickable) {
+    if (clickable && visible) {
         clicked = false;
 
         show();
