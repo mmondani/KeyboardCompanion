@@ -270,6 +270,11 @@ void MainFsm::showCurrentPage () {
                     Serial.print(F("Grid size: "));
                     Serial.println(gridArray.size());
 
+                    // Se "limpian" todos los slots de la grid
+                    for (uint32_t i = 0; i < 15; i++)
+                        iconGridScreen.setIcon(i, nullptr);
+
+                    // Se cargan los íconos correspondientes a la grid actual
                     for (uint32_t i = 0; i < gridArray.size(); i++) {
                         JsonObject gridElement = gridArray[i];
                         const char* iconFileName = gridElement["icon"];
