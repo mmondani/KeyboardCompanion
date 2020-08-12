@@ -6,6 +6,7 @@
 #include "GUI/Widgets.h"
 #include "Screens/Screens.h"
 #include "GUI/GuiHandler.h"
+#include "SerialLayer.h"
 
 
 class MainFsm {
@@ -32,6 +33,7 @@ class MainFsm {
 
         void gotoState (MainFsm::State nextState);
         void showCurrentPage ();
+        void processIconClicked ();
 
         static MainFsm* instance;
         MainFsm::State state;
@@ -42,6 +44,7 @@ class MainFsm {
         JsonObject mainJsonObject;
         JsonObject pagesJsonObject;
         JsonObject gridsJsonObject;
+        JsonArray currentGridArray;
         const char* initialPage;
         const char* currentPage;
         const char* prevPage;

@@ -15,6 +15,7 @@ class GuiHandler {
         void begin(TFT_eSPI* tft, Adafruit_STMPE610* touch, uint8_t rotation, uint16_t tftWidth, uint16_t tftHeight);
         void handler();
         void setScreen(Screen* screen);
+        bool isRenderingScreen ();
 
     protected:
         GuiHandler();

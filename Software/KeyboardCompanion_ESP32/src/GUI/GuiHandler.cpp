@@ -88,3 +88,13 @@ void GuiHandler::setScreen(Screen* screen) {
   currentScreen = screen;
   currentScreen->show();
 }
+
+
+bool GuiHandler::isRenderingScreen () {
+  bool ret = false;
+
+  if (widgetEventBuffer->getPending())
+    ret = true;
+
+  return ret;
+}

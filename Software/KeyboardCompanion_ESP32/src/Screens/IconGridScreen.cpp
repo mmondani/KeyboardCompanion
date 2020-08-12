@@ -125,6 +125,37 @@ IconGridScreen::IconGridScreen(FSProvider* fsProvider)
             iconClickCallback(8);
     });
 
+    Widget::connect(iconButton9.release, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback(9);
+    });
+
+    Widget::connect(iconButton10.release, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback(10);
+    });
+
+    Widget::connect(iconButton11.release, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback(11);
+    });
+
+    Widget::connect(iconButton12.release, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback(12);
+    });
+
+    Widget::connect(iconButton13.release, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback(13);
+    });
+    
+    Widget::connect(iconButton14.release, [this](Widget* widget) {
+        if (iconClickCallback != nullptr)
+            iconClickCallback(14);
+    });
+    
+
     Widget::connect(leftLabel.release, [this](Widget* widget) {
         if (navigationEventCallback != nullptr)
             navigationEventCallback(IconGridScreenCallbacks::NavigationEvent::LEFT);

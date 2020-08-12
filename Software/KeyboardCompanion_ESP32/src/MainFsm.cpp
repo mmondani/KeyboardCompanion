@@ -41,6 +41,9 @@ void MainFsm::begin () {
     iconGridScreen.setIconClickCallback([this](uint32_t iconNumber) {
         Serial.print("Icono: ");
         Serial.println(iconNumber);
+
+        iconClick = true;
+        iconNumberClicked = iconNumber;
     });
 
 
@@ -156,32 +159,36 @@ void MainFsm::handler () {
 
             }
             /*******************************************************************/
-            if (navigationLeftClick) {
-                navigationLeftClick = false;
+            if (!GuiHandler::getInstance()->isRenderingScreen()) {
+                if (navigationLeftClick) {
+                    navigationLeftClick = false;
 
-                if (prevPage != nullptr) {
-                    currentPage = prevPage;
-                    showCurrentPage();
+                    if (prevPage != nullptr) {
+                        currentPage = prevPage;
+                        showCurrentPage();
+                    }
                 }
-            }
-            else if (navigationRightClick) {
-                navigationRightClick = false;
+                else if (navigationRightClick) {
+                    navigationRightClick = false;
 
-                if (nextPage != nullptr) {
-                    currentPage = nextPage;
-                    showCurrentPage();
+                    if (nextPage != nullptr) {
+                        currentPage = nextPage;
+                        showCurrentPage();
+                    }
                 }
-            }
-            else if (navigationMainClick) {
-                navigationMainClick = false;
+                else if (navigationMainClick) {
+                    navigationMainClick = false;
 
-                if (initialPage != nullptr && currentPage != initialPage) {
-                    currentPage = initialPage;
-                    showCurrentPage();
+                    if (initialPage != nullptr && currentPage != initialPage) {
+                        currentPage = initialPage;
+                        showCurrentPage();
+                    }
                 }
-            }
-            else if (iconClick) {
-                iconClick = false;
+                else if (iconClick) {
+                    iconClick = false;
+
+                    processIconClicked();
+                }
             }
             /*******************************************************************/
             if (stateOut) {
@@ -264,19 +271,19 @@ void MainFsm::showCurrentPage () {
             Serial.println(gridNumber);
 
             if (gridNumber) {
-                JsonArray gridArray = gridsJsonObject[gridNumber];
+                currentGridArray = gridsJsonObject[gridNumber];
 
-                if (!gridArray.isNull()) {
+                if (!currentGridArray.isNull()) {
                     Serial.print(F("Grid size: "));
-                    Serial.println(gridArray.size());
+                    Serial.println(currentGridArray.size());
 
                     // Se "limpian" todos los slots de la grid
                     for (uint32_t i = 0; i < 15; i++)
                         iconGridScreen.setIcon(i, nullptr);
 
                     // Se cargan los íconos correspondientes a la grid actual
-                    for (uint32_t i = 0; i < gridArray.size(); i++) {
-                        JsonObject gridElement = gridArray[i];
+                    for (uint32_t i = 0; i < currentGridArray.size(); i++) {
+                        JsonObject gridElement = currentGridArray[i];
                         const char* iconFileName = gridElement["icon"];
                         int gridPosition = gridElement["pos"];
 
@@ -295,4 +302,49 @@ void MainFsm::showCurrentPage () {
         }
     }
 
+}
+
+
+void MainFsm::processIconClicked () {
+    uint32_t i = 0xff;
+
+    if (!currentGridArray.isNull()) {
+        for (i = 0; i < currentGridArray.size(); i++) {
+            uint32_t pos = currentGridArray[i]["pos"];
+
+            if (pos == iconNumberClicked)
+                break;
+        }
+
+        if (i != 0xff) {
+            const char* type = currentGridArray[i]["type"];
+
+            if (type) {
+                if (strcmp(type, "link") == 0) {
+                    const char* linkPage = currentGridArray[i]["link"];
+
+                    if (linkPage) {
+                        currentPage = linkPage;
+                        showCurrentPage();
+                    }
+                }
+                else if (strcmp(type, "string") == 0) {
+                    if(!SerialLayer::getInstance()->isSendingFrame()) {
+                        const char* stringToSend = currentGridArray[i]["string"];
+
+                        if (stringToSend)
+                            SerialLayer::getInstance()->sendStringFrame(currentGridArray[i]["string"]);
+                    }
+                }
+                else if (strcmp(type, "keys") == 0) {
+                    if(!SerialLayer::getInstance()->isSendingFrame()) {
+                        JsonArray keysToSend = currentGridArray[i]["keys"];
+
+                        if (!keysToSend.isNull() && keysToSend.size() > 0)
+                            SerialLayer::getInstance()->sendKeysFrame(currentGridArray[i]["keys"]);
+                    }
+                }
+            }
+        }
+    }
 }

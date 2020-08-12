@@ -6,6 +6,7 @@
 #include <Adafruit_STMPE610.h>
 #include "../include/GUI/GuiHandler.h"
 #include "MainFsm.h"
+#include "SerialLayer.h"
 
 
 #define CS_TOUCH  21
@@ -17,10 +18,12 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(CS_TOUCH);
 
 GuiHandler* guiHandler;
 MainFsm* mainFsm;
+SerialLayer* serialLayer;
 
 
 void setup() {
   Serial.begin(115200);
+  Serial2.begin(115200);
 
   tft.init();
 
@@ -45,11 +48,16 @@ void setup() {
   guiHandler = GuiHandler::getInstance();
   guiHandler->begin(&tft, &touch, 1, tft.width(), tft.height());
 
+  serialLayer = SerialLayer::getInstance();
+  serialLayer->begin(&Serial2);
+
   mainFsm = MainFsm::getInstance();
   mainFsm->begin();
+
 }
 
 void loop() {
   guiHandler->handler();
   mainFsm->handler();
+  serialLayer->handler();
 }

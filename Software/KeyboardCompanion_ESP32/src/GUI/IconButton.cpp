@@ -25,7 +25,7 @@ void IconButton::draw(TFT_eSPI* tft) {
     fs::FS* fileSystem;
 
     
-    if (visible) {
+    if (visible && fileName[0] != '\0') {
         fileSystem = fsProvider->take();
 
         if (fileSystem != nullptr) {
