@@ -5,6 +5,7 @@
 #define LAYOUT_SPANISH
 
 #include <HID-Project.h>
+#include "CustomKeys.h"
 
 
 enum States {
@@ -106,7 +107,7 @@ void rxHandler () {
             rxBuffer[received - 1] = b;
           }
           else if (frameType == '2') {
-            
+            rxBuffer[received - 1] = b;
           }
 
           if (received >= frameLength) {
@@ -118,7 +119,18 @@ void rxHandler () {
               }
             }
             else if (frameType == '2') {
+              for (uint32_t i = 0; i < frameLength; i++) {
+                //Serial.print("Payload: ");
+                //Serial.println((char)rxBuffer[i]);
+                if (rxBuffer[i] >= 4 && rxBuffer[i] < 0x70)
+                  Keyboard.write(customKeysToKeyCode[rxBuffer[i]]);
+                else if (rxBuffer[i] >= 0x70 && rxBuffer[i] < 0x80)
+                  Keyboard.press(customKeysToKeyCode[rxBuffer[i]]);
+                else if (rxBuffer[i] >= 0x80) 
+                  Consumer.write(static_cast<ConsumerKeycode>(customKeysToKeyCode[rxBuffer[i]]));
+              }
               
+              Keyboard.releaseAll();
             }
 
             state = WAITING_FRAME;
