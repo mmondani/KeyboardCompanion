@@ -13,6 +13,7 @@ class SerialLayer {
         bool isSendingFrame ();
         void sendStringFrame (const char* stringToSend);
         void sendKeysFrame (const JsonArray keysArrayToSend);
+        void sendMacroFrame (const JsonArray keysArrayToSend);
 
 
     protected:
@@ -29,6 +30,7 @@ class SerialLayer {
         JsonArray keysArrayToSend;
         bool sendString;
         bool sendArray;
+        bool sendMacro;
 };
 
 

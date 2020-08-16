@@ -17,6 +17,7 @@ SerialLayer::SerialLayer () {
     serial = nullptr;
     sendString = false;
     sendArray = false;
+    sendMacro = false;
 }
 
 
@@ -56,6 +57,21 @@ void SerialLayer::handler () {
         sendArray = false;
         sendingFrame = false;
     }
+    else if (sendMacro) {
+        payloadSize = keysArrayToSend.size();
+
+        serial->print('%');
+        serial->print('3');
+        serial->write((payloadSize & 0xff00) >> 8);
+        serial->write(payloadSize & 0x00ff);
+
+        for (uint32_t i = 0 ; i < payloadSize; i++) {
+            serial->write(keysArrayToSend[i].as<uint32_t>());
+        }
+
+        sendMacro = false;
+        sendingFrame = false;
+    }
 }
 
 
@@ -82,5 +98,16 @@ void SerialLayer::sendKeysFrame (const JsonArray keysArrayToSend) {
         this->keysArrayToSend = keysArrayToSend;
 
         sendArray = true;
+    }
+}
+
+
+void SerialLayer::sendMacroFrame (const JsonArray keysArrayToSend) {
+    if (!sendingFrame) {
+        sendingFrame = true;
+
+        this->keysArrayToSend = keysArrayToSend;
+
+        sendMacro = true;
     }
 }

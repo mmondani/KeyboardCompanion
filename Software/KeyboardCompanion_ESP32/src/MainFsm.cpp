@@ -344,6 +344,14 @@ void MainFsm::processIconClicked () {
                             SerialLayer::getInstance()->sendKeysFrame(currentGridArray[i]["keys"]);
                     }
                 }
+                else if (strcmp(type, "macro") == 0) {
+                    if(!SerialLayer::getInstance()->isSendingFrame()) {
+                        JsonArray keysToSend = currentGridArray[i]["macro"];
+
+                        if (!keysToSend.isNull() && keysToSend.size() > 0)
+                            SerialLayer::getInstance()->sendMacroFrame(currentGridArray[i]["macro"]);
+                    }
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SoftTimers.h>
 
+// También hay que poner estos dos defines en ImprovedKeylayouts.h
 #define HID_CUSTOM_LAYOUT
 #define LAYOUT_SPANISH
 
@@ -64,7 +65,7 @@ void rxHandler () {
       if (Serial1.available() > 0) {
         uint8_t b = Serial1.read();
 
-        if (b == '1' || b == '2') {
+        if (b == '1' || b == '2' || b == '3') {
           //Serial.print("Frame type: ");
           //Serial.println((char)b);
           frameType = b;
@@ -103,12 +104,9 @@ void rxHandler () {
         if (received < frameLength) {
           received ++;
 
-          if (frameType == '1') {
+          if (frameType == '1' || frameType == '2' || frameType == '3') 
             rxBuffer[received - 1] = b;
-          }
-          else if (frameType == '2') {
-            rxBuffer[received - 1] = b;
-          }
+          
 
           if (received >= frameLength) {
             if (frameType == '1') {
@@ -119,13 +117,47 @@ void rxHandler () {
               }
             }
             else if (frameType == '2') {
+              
               for (uint32_t i = 0; i < frameLength; i++) {
                 //Serial.print("Payload: ");
                 //Serial.println((char)rxBuffer[i]);
+                
                 if (rxBuffer[i] >= 4 && rxBuffer[i] < 0x70)
                   Keyboard.write(customKeysToKeyCode[rxBuffer[i]]);
                 else if (rxBuffer[i] >= 0x70 && rxBuffer[i] < 0x80)
-                  Keyboard.press(customKeysToKeyCode[rxBuffer[i]]);
+                  Keyboard.press(static_cast<KeyboardKeycode>(customKeysToKeyCode[rxBuffer[i]]));
+                else if (rxBuffer[i] >= 0x80) 
+                  Consumer.write(static_cast<ConsumerKeycode>(customKeysToKeyCode[rxBuffer[i]]));
+              }
+              
+             /*
+              Keyboard.press(KEY_LEFT_CTRL);
+              Keyboard.press(KEY_LEFT_SHIFT);
+              Keyboard.press(KEY_LEFT_ALT);
+              Keyboard.write(KEY_S);
+              */
+              Keyboard.releaseAll();
+            }
+            else if (frameType == '3') {
+              
+              for (uint32_t i = 0; i < frameLength; i++) {
+                //Serial.print("Payload: ");
+                //Serial.println((char)rxBuffer[i]);
+
+                if (rxBuffer[i] == 0) {
+                  Keyboard.releaseAll();
+                  //Serial.println("Release all");
+                }
+                else if (rxBuffer[i] >= 4 && rxBuffer[i] < 0x70) {
+                  Keyboard.write(customKeysToKeyCode[rxBuffer[i]]);
+                  //Serial.print("Write: ");
+                  //Serial.println(customKeysToKeyCode[rxBuffer[i]]);
+                }
+                else if (rxBuffer[i] >= 0x70 && rxBuffer[i] < 0x80) {
+                  Keyboard.press(static_cast<KeyboardKeycode>(customKeysToKeyCode[rxBuffer[i]]));
+                  //Serial.print("Press: ");
+                  //Serial.println(customKeysToKeyCode[rxBuffer[i]]);
+                }
                 else if (rxBuffer[i] >= 0x80) 
                   Consumer.write(static_cast<ConsumerKeycode>(customKeysToKeyCode[rxBuffer[i]]));
               }
