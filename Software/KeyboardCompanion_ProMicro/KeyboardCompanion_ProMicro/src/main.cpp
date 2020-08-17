@@ -123,7 +123,7 @@ void rxHandler () {
                 //Serial.println((char)rxBuffer[i]);
                 
                 if (rxBuffer[i] >= 4 && rxBuffer[i] < 0x70)
-                  Keyboard.write(customKeysToKeyCode[rxBuffer[i]]);
+                  Keyboard.write(static_cast<KeyboardKeycode>(customKeysToKeyCode[rxBuffer[i]]));
                 else if (rxBuffer[i] >= 0x70 && rxBuffer[i] < 0x80)
                   Keyboard.press(static_cast<KeyboardKeycode>(customKeysToKeyCode[rxBuffer[i]]));
                 else if (rxBuffer[i] >= 0x80) 
@@ -144,20 +144,12 @@ void rxHandler () {
                 //Serial.print("Payload: ");
                 //Serial.println((char)rxBuffer[i]);
 
-                if (rxBuffer[i] == 0) {
+                if (rxBuffer[i] == 0)
                   Keyboard.releaseAll();
-                  //Serial.println("Release all");
-                }
-                else if (rxBuffer[i] >= 4 && rxBuffer[i] < 0x70) {
-                  Keyboard.write(customKeysToKeyCode[rxBuffer[i]]);
-                  //Serial.print("Write: ");
-                  //Serial.println(customKeysToKeyCode[rxBuffer[i]]);
-                }
-                else if (rxBuffer[i] >= 0x70 && rxBuffer[i] < 0x80) {
+                else if (rxBuffer[i] >= 4 && rxBuffer[i] < 0x70)
+                  Keyboard.write(static_cast<KeyboardKeycode>(customKeysToKeyCode[rxBuffer[i]]));
+                else if (rxBuffer[i] >= 0x70 && rxBuffer[i] < 0x80) 
                   Keyboard.press(static_cast<KeyboardKeycode>(customKeysToKeyCode[rxBuffer[i]]));
-                  //Serial.print("Press: ");
-                  //Serial.println(customKeysToKeyCode[rxBuffer[i]]);
-                }
                 else if (rxBuffer[i] >= 0x80) 
                   Consumer.write(static_cast<ConsumerKeycode>(customKeysToKeyCode[rxBuffer[i]]));
               }
