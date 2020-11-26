@@ -1,0 +1,147 @@
+{
+	"initial_page": "1",
+	"pages": {
+		"1": {
+			"title": "Principal",
+			"prev": null,
+			"next": null,
+			"type": "grid",
+			"grid": "1"
+		},
+		"2": {
+			"title": "Doxygen",
+			"prev": null,
+			"next": null,
+			"type": "grid",
+			"grid": "2"
+		},
+		"3": {
+			"title": "CPP",
+			"prev": null,
+			"next": null,
+			"type": "grid",
+			"grid": "3"
+		},
+		"4": {
+			"title": "MYSQL",
+			"prev": null,
+			"next": null,
+			"type": "grid",
+			"grid": "4"
+		}
+	},
+	"grids": {
+		"1": [{
+				"pos": 0,
+				"icon": "1.jpg",
+				"type": "keys",
+				"keys": [134]
+			},
+			{
+				"pos": 1,
+				"icon": "2.jpg",
+				"type": "keys",
+				"keys": [135]
+			},
+			{
+				"pos": 2,
+				"icon": "3.jpg",
+				"type": "keys",
+				"keys": [138]
+			},
+			{
+				"pos": 3,
+				"icon": "4.jpg",
+				"type": "keys",
+				"keys": [137]
+			},
+			{
+				"pos": 4,
+				"icon": "5.jpg",
+				"type": "keys",
+				"keys": [136]
+			},
+			{
+				"pos": 5,
+				"icon": "6.jpg",
+				"type": "keys",
+				"keys": [132]
+			},
+			{
+				"pos": 6,
+				"icon": "7.jpg",
+				"type": "keys",
+				"keys": [131]
+			},
+			{
+				"pos": 7,
+				"icon": "8.jpg",
+				"type": "keys",
+				"keys": [143]
+			},
+			{
+				"pos": 8,
+				"icon": "9.jpg",
+				"type": "keys",
+				"keys": [112, 114, 124]
+			},
+			{
+				"pos": 9,
+				"icon": "10.jpg",
+				"type": "keys",
+				"keys": [112, 113, 114, 22]
+			},
+			{
+				"pos": 10,
+				"icon": "11.jpg",
+				"type": "link",
+				"link": "2"
+			},
+			{
+				"pos": 11,
+				"icon": "12.jpg",
+				"type": "link",
+				"link": "3"
+			},
+			{
+				"pos": 12,
+				"icon": "13.jpg",
+				"type": "link",
+				"link": "4"
+			},
+			{
+				"pos": 13,
+				"icon": "14.jpg",
+				"type": "macro",
+				"macro": [77, 0, 113, 74, 74, 0, 112, 6, 0, 77, 40, 74, 0, 112, 25]
+			}
+		],
+		"2": [],
+		"3": [],
+		"4": [{
+				"pos": 0,
+				"icon": "13-1.jpg",
+				"type": "string",
+				"string": "SELECT * FROM Customers WHERE Country='Mexico';"
+			},
+			{
+				"pos": 1,
+				"icon": "13-2.jpg",
+				"type": "string",
+				"string": "DELETE FROM tutorials_tbl WHERE tutorial_id=3;"
+			},
+			{
+				"pos": 2,
+				"icon": "13-3.jpg",
+				"type": "string",
+				"string": "UPDATE table_name SET field1 = new-value1, field2 = new-value2 [WHERE Clause]"
+			},
+			{
+				"pos": 3,
+				"icon": "13-4.jpg",
+				"type": "string",
+				"string": "SELECT a.tutorial_id, a.tutorial_author, b.tutorial_count\nFROM tutorials_tbl a LEFT JOIN tcount_tbl b\nON a.tutorial_author = b.tutorial_author;"
+			}
+		]
+	}
+}

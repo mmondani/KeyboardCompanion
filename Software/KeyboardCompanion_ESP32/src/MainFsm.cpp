@@ -12,8 +12,9 @@ MainFsm* MainFsm::getInstance() {
 }
 
 
-MainFsm::MainFsm() 
-      : testScreen(FSProvider::getInstance()),
+MainFsm::MainFsm()
+      : webserver(),
+      testScreen(FSProvider::getInstance()),
       testScreen2(FSProvider::getInstance()),
       loadingDataScreen(),
       iconGridScreen(FSProvider::getInstance()) {
@@ -157,6 +158,18 @@ void MainFsm::handler () {
                 stateIn = false;
                 stateOut = false;
 
+                // Se crea el AP
+                WiFi.mode(WIFI_STA);
+                WiFi.disconnect();
+                WiFi.softAP("ESP32", "12345678");
+                delay(2000);    // Hay que esperar dos segundos para llamar a softAPConfig. Sino, crashea!!!!
+                                // https://github.com/espressif/arduino-esp32/issues/2025
+                WiFi.softAPConfig(IPAddress(192,168,1,1), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
+                
+                /*
+                // Se inicia el webserver
+                webserver.begin();
+                */
             }
             /*******************************************************************/
             if (!GuiHandler::getInstance()->isRenderingScreen()) {
@@ -195,6 +208,8 @@ void MainFsm::handler () {
                 stateOut = false;
                 stateIn = true;
 
+                WiFi.softAPdisconnect();
+                webserver.end();
             }
             break;
 

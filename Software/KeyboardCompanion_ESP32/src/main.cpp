@@ -32,6 +32,11 @@ void setup() {
     while(1);
   }
 
+  if(!SPIFFS.begin(true)){
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
+
   if (!SD.begin(CS_SD)) {
     Serial.println("Card Mount Failed");
     return;

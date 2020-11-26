@@ -7,6 +7,7 @@
 #include "Screens/Screens.h"
 #include "GUI/GuiHandler.h"
 #include "SerialLayer.h"
+#include "CustomWebServer.h"
 
 
 class MainFsm {
@@ -36,6 +37,7 @@ class MainFsm {
         void processIconClicked ();
 
         static MainFsm* instance;
+        CustomWebServer webserver;
         MainFsm::State state;
         MainFsm::State prevState;
         bool stateIn, stateOut;
